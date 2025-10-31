@@ -6,13 +6,19 @@ import Register from './routes/Register.vue'
 import Dashboard from './routes/Dashboard.vue'
 import { SERVER_URL } from './utils/const'
 import { user } from './stores/user'
+import { canRegister } from './utils/functions'
 
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: Home },
         { path: '/login', component: Login },
-        { path: '/register', component: Register },
+        { path: '/register', component: Register, beforeEnter: async () => {
+            const canReg = await canRegister();
+            if (!canReg){
+                return "/"
+            }
+        }},
         { path: '/dashboard', component: Dashboard, beforeEnter: async () => {
             const response = await fetch(SERVER_URL+"/API/user", {
                 headers: {'Authorization': user.token ?? ""},
