@@ -4,7 +4,7 @@ import { SERVER_URL } from '@/utils/const';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const username = ref("");
+const email = ref("");
 const password = ref("");
 
 const router = useRouter();
@@ -12,7 +12,7 @@ const router = useRouter();
 const handleForm = async () => {
     const response = await fetch(SERVER_URL+"/API/user/login", {
         method: 'POST',
-        body: JSON.stringify({username: username.value, password: password.value}),
+        body: JSON.stringify({email: email.value, password: password.value}),
         headers: {'Content-Type': 'application/json'},
     });
     const body = await response.json();
@@ -25,10 +25,10 @@ const handleForm = async () => {
 
 <template>
    <form @submit.prevent="handleForm">
-        <label for="fusername">Username:</label>
-        <input type="text" id="fusername" name="username" placeholder="John.Doe" v-model="username"/>
+        <label for="fusername">Email:</label>
+        <input type="email" id="email" name="email" placeholder="John.Doe@exemple.mail" v-model="email"/>
         <label for="fpassword">Password:</label>
-        <input type="password" id="fpassword" name="password" placeholder="S3cret-P4ssw0rd" v-model="password"/>
+        <input type="password" id="password" name="password" placeholder="S3cret-P4ssw0rd" v-model="password"/>
         <input type="submit" value="login">
     </form>
 </template>
